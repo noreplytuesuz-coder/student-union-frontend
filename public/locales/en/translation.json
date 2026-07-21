@@ -456,7 +456,7 @@
   "Failed to load documents. Please try again later.": "Failed to load documents. Please try again later.",
   "No documents found.": "No documents found.",
   "Error loading data": "Error loading data",
-  "events.empty": "events.empty",
+  "events.empty": "No events yet.",
   "Photo": "Photo",
   "Failed to load gallery. Please try again later.": "Failed to load gallery. Please try again later.",
   "No photos available yet.": "No photos available yet.",
