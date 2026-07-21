@@ -1,14 +1,14 @@
-import { useLanguage } from '@/app/providers/LanguageContext';
-import { useTheme } from '@/app/providers/ThemeProvider';
-import { useSessionStore } from '@/entities/session';
-import { useSignOut } from '@/entities/session';
-import { Button, Avatar } from '@/shared/ui';
-import { LanguageSwitcher } from '@/widgets/language-switcher';
-import { cn } from '@/shared/lib/utils';
-import { AnimatePresence, motion } from 'motion/react';
-import { LogOut, Menu, Moon, Sun, Trophy, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLanguage } from "@/app/providers/LanguageContext";
+import { useTheme } from "@/app/providers/ThemeProvider";
+import { useSessionStore } from "@/entities/session";
+import { useSignOut } from "@/entities/session";
+import { Button, Avatar } from "@/shared/ui";
+import { LanguageSwitcher } from "@/widgets/language-switcher";
+import { cn } from "@/shared/lib/utils";
+import { AnimatePresence, motion } from "motion/react";
+import { LogOut, Menu, Moon, Sun, Trophy, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,50 +22,41 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => setMobileMenuOpen(false), [location]);
 
   const { t } = useLanguage();
-  const isAdmin = user?.role === 'user';
+  const isAdmin = user?.role === "user";
 
   const navLinks = [
-    { name: t('nav.events'), path: '/events' },
-    { name: t('nav.news'), path: '/news' },
-    { name: t('nav.ranking'), path: '/ranking' },
-    { name: t('nav.projects'), path: '/projects' },
-    { name: t('nav.members'), path: '/students' },
-    ...(isAdmin ? [{ name: t('nav.admin'), path: '/admin' }] : []),
+    { name: t("nav.events"), path: "/events" },
+    { name: t("nav.news"), path: "/news" },
+    { name: t("nav.ranking"), path: "/ranking" },
+    { name: t("nav.projects"), path: "/projects" },
+    { name: t("nav.members"), path: "/students" },
+    ...(isAdmin ? [{ name: t("nav.admin"), path: "/admin" }] : []),
   ];
 
-  const handleLogout = () =>
-    signOut.mutate(undefined, { onSuccess: () => navigate('/') });
+  const handleLogout = () => signOut.mutate(undefined, { onSuccess: () => navigate("/") });
 
   return (
     <>
       <header
-        className={cn(
-          'fixed left-0 right-0 top-0 z-50 transition-all duration-300',
-          isScrolled ? 'py-4' : 'py-6',
-        )}
+        className={cn("fixed left-0 right-0 top-0 z-50 transition-all duration-300", isScrolled ? "py-4" : "py-6")}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div
             className={cn(
-              'flex items-center justify-between rounded-full px-6 py-3 transition-all duration-300',
-              isScrolled ? 'glass neo-border neo-shadow' : 'bg-transparent',
+              "flex items-center justify-between rounded-full px-6 py-3 transition-all duration-300",
+              isScrolled ? "glass neo-border neo-shadow" : "bg-transparent",
             )}
           >
             <NavLink to="/" className="group flex items-center gap-2">
               <div className="neo-border -rotate-6 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white transition-transform group-hover:-rotate-12">
-                <img
-                  loading="lazy"
-                  src="/src/assets/images/student_union_logo_1783505615366.jpg"
-                  alt="Student Union Logo"
-                  className="h-full w-full object-cover"
-                />
+                <img loading="lazy" src="/logo.jpg" alt="Student Union Logo" className="h-full w-full object-cover" />
               </div>
               <span className="hidden font-display text-xl font-bold sm:block">
                 STUDENT <span className="text-gradient">UNION</span>
@@ -79,10 +70,8 @@ export function Navbar() {
                   to={link.path}
                   className={({ isActive }) =>
                     cn(
-                      'relative overflow-hidden rounded-full px-4 py-2 font-heading text-sm font-semibold transition-all group',
-                      isActive
-                        ? 'text-[var(--color-primary)]'
-                        : 'hover:bg-gray-100 dark:hover:bg-white/10',
+                      "relative overflow-hidden rounded-full px-4 py-2 font-heading text-sm font-semibold transition-all group",
+                      isActive ? "text-[var(--color-primary)]" : "hover:bg-gray-100 dark:hover:bg-white/10",
                     )
                   }
                 >
@@ -94,7 +83,7 @@ export function Navbar() {
                           layoutId="nav-indicator"
                           className="absolute inset-0 rounded-full bg-primary/10 dark:bg-primary/20"
                           initial={false}
-                          transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
                       )}
                     </>
@@ -106,7 +95,7 @@ export function Navbar() {
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
               <button
-                onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                onClick={() => setTheme(isDark ? "light" : "dark")}
                 className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10"
                 aria-label="Toggle theme"
               >
@@ -119,7 +108,7 @@ export function Navbar() {
                     <NavLink
                       to="/ranking"
                       className="neo-border flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-semibold hover:opacity-80"
-                      title={t('Points')}
+                      title={t("Points")}
                     >
                       <Trophy size={14} className="text-amber-500" />
                       {user.points}
@@ -128,10 +117,10 @@ export function Navbar() {
                   <NavLink
                     to="/profile"
                     className="mr-2 flex items-center hover:opacity-80"
-                    title={isAdmin ? 'Admin' : 'Profile'}
+                    title={isAdmin ? "Admin" : "Profile"}
                   >
                     <Avatar
-                      name={user?.name ?? ''}
+                      name={user?.name ?? ""}
                       image={user?.image}
                       className="neo-border h-8 w-8"
                       fallbackClassName="text-xs"
@@ -149,11 +138,11 @@ export function Navbar() {
                 <div className="hidden items-center gap-2 sm:flex">
                   <NavLink to="/login">
                     <Button size="sm" variant="outline">
-                      {t('nav.signIn')}
+                      {t("nav.signIn")}
                     </Button>
                   </NavLink>
                   <NavLink to="/signup">
-                    <Button size="sm">{t('nav.signUp')}</Button>
+                    <Button size="sm">{t("nav.signUp")}</Button>
                   </NavLink>
                 </div>
               )}
@@ -226,31 +215,26 @@ export function Navbar() {
                   <>
                     <NavLink to="/profile" className="block w-full">
                       <Button size="lg" className="w-full">
-                        {t('My Profile')}
+                        {t("My Profile")}
                       </Button>
                     </NavLink>
                     <span className="text-center font-sans text-sm font-bold text-muted-foreground">
-                      {t('Logged in as')} {isAdmin ? 'Admin' : 'Student'}
+                      {t("Logged in as")} {isAdmin ? "Admin" : "Student"}
                     </span>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="w-full text-red-500"
-                      onClick={handleLogout}
-                    >
-                      {t('Sign Out')}
+                    <Button size="lg" variant="outline" className="w-full text-red-500" onClick={handleLogout}>
+                      {t("Sign Out")}
                     </Button>
                   </>
                 ) : (
                   <>
                     <NavLink to="/signup" className="block w-full">
                       <Button size="lg" className="w-full">
-                        {t('nav.signUp')}
+                        {t("nav.signUp")}
                       </Button>
                     </NavLink>
                     <NavLink to="/login" className="block w-full">
                       <Button size="lg" variant="outline" className="w-full">
-                        {t('nav.signIn')}
+                        {t("nav.signIn")}
                       </Button>
                     </NavLink>
                   </>
