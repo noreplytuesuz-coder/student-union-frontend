@@ -1,0 +1,19 @@
+{
+  "name": "Student Union | TUES",
+  "short_name": "SU TUES",
+  "description": "The official platform of the Student Union at TUES — events, projects, news and a community driving change across campus.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0e",
+  "theme_color": "#0c0c0e",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/student_union_logo_1783505615366.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
