@@ -1,9 +1,9 @@
-import { useLanguage } from '@/app/providers/LanguageContext';
-import { LogoutButton } from '@/features/auth';
-import { useSessionStore } from '@/entities/session';
-import { Button, Avatar } from '@/shared/ui';
-import { ThemeToggle } from '@/widgets/theme-toggle';
-import { LanguageSwitcher } from '@/widgets/language-switcher';
+import { useLanguage } from "@/app/providers/LanguageContext";
+import { LogoutButton } from "@/features/auth";
+import { useSessionStore } from "@/entities/session";
+import { Button, Avatar } from "@/shared/ui";
+import { ThemeToggle } from "@/widgets/theme-toggle";
+import { LanguageSwitcher } from "@/widgets/language-switcher";
 import {
   Calendar,
   ExternalLink,
@@ -20,23 +20,23 @@ import {
   PenLine,
   ClipboardList,
   Trophy,
-} from 'lucide-react';
-import { Link, Outlet, NavLink } from 'react-router-dom';
+} from "lucide-react";
+import { Link, Outlet, NavLink } from "react-router-dom";
 
 const ADMIN_NAV = [
-  { to: '/admin', label: 'nav.dashboard', icon: <LayoutDashboard size={20} />, end: true },
-  { to: '/admin/events', label: 'nav.events', icon: <Calendar size={20} /> },
-  { to: '/admin/news', label: 'nav.news', icon: <Newspaper size={20} /> },
-  { to: '/admin/projects', label: 'nav.projects', icon: <Briefcase size={20} /> },
-  { to: '/admin/members', label: 'nav.members', icon: <Users size={20} /> },
-  { to: '/admin/registrations', label: 'nav.registrations', icon: <ClipboardList size={20} /> },
-  { to: '/admin/submissions', label: 'nav.submissions', icon: <PenLine size={20} /> },
-  { to: '/admin/contacts', label: 'nav.contacts', icon: <Mail size={20} /> },
-  { to: '/admin/documents', label: 'nav.documents', icon: <FileText size={20} /> },
-  { to: '/admin/gallery', label: 'nav.gallery', icon: <Images size={20} /> },
-  { to: '/admin/partners', label: 'nav.partners', icon: <Handshake size={20} /> },
-  { to: '/admin/ranking', label: 'nav.ranking', icon: <Trophy size={20} /> },
-  { to: '/admin/settings', label: 'nav.settings', icon: <Settings size={20} /> },
+  { to: "/admin", label: "nav.dashboard", icon: <LayoutDashboard size={20} />, end: true },
+  { to: "/admin/events", label: "nav.events", icon: <Calendar size={20} /> },
+  { to: "/admin/news", label: "nav.news", icon: <Newspaper size={20} /> },
+  { to: "/admin/projects", label: "nav.projects", icon: <Briefcase size={20} /> },
+  { to: "/admin/members", label: "nav.members", icon: <Users size={20} /> },
+  { to: "/admin/registrations", label: "nav.registrations", icon: <ClipboardList size={20} /> },
+  { to: "/admin/submissions", label: "nav.submissions", icon: <PenLine size={20} /> },
+  { to: "/admin/contacts", label: "nav.contacts", icon: <Mail size={20} /> },
+  { to: "/admin/documents", label: "nav.documents", icon: <FileText size={20} /> },
+  { to: "/admin/gallery", label: "nav.gallery", icon: <Images size={20} /> },
+  { to: "/admin/partners", label: "nav.partners", icon: <Handshake size={20} /> },
+  { to: "/admin/ranking", label: "nav.ranking", icon: <Trophy size={20} /> },
+  { to: "/admin/settings", label: "nav.settings", icon: <Settings size={20} /> },
 ];
 
 export function AdminLayout() {
@@ -48,16 +48,11 @@ export function AdminLayout() {
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r neo-border bg-[var(--bg-color)] lg:flex">
         <div className="flex h-16 items-center gap-2 border-b neo-border px-6">
           <div className="neo-border -rotate-6 flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white">
-            <img
-              loading="lazy"
-              src="/src/assets/images/student_union_logo_1783505615366.jpg"
-              alt="Logo"
-              className="h-full w-full object-cover"
-            />
+            <img loading="lazy" src="/logo.jpg" alt="Logo" className="h-full w-full object-cover" />
           </div>
           <span className="font-display text-lg font-bold">
-            {t('STUDENT ')}
-            <span className="text-gradient">{t('UNION')}</span>
+            {t("STUDENT ")}
+            <span className="text-gradient">{t("UNION")}</span>
           </span>
         </div>
 
@@ -70,8 +65,8 @@ export function AdminLayout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-xl px-4 py-2.5 font-heading text-sm font-semibold transition-colors ${
                   isActive
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:bg-gray-100 dark:hover:bg-white/5'
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:bg-gray-100 dark:hover:bg-white/5"
                 }`
               }
             >
@@ -84,7 +79,7 @@ export function AdminLayout() {
         <div className="border-t neo-border p-4">
           <div className="mb-3 flex items-center gap-3">
             <Avatar
-              name={user?.name ?? 'Admin'}
+              name={user?.name ?? "Admin"}
               image={user?.image}
               className="neo-border h-9 w-9"
               fallbackClassName="text-sm"
@@ -99,7 +94,7 @@ export function AdminLayout() {
 
       <div className="lg:pl-64">
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b neo-border bg-[var(--bg-color)]/80 px-6 backdrop-blur-xl">
-          <h1 className="font-display text-xl font-bold">{t('Admin Panel')}</h1>
+          <h1 className="font-display text-xl font-bold">{t("Admin Panel")}</h1>
           <div className="flex items-center gap-3">
             <Link
               to="/"
@@ -107,7 +102,7 @@ export function AdminLayout() {
               className="flex h-10 items-center gap-2 rounded-full bg-gray-100 px-4 font-heading text-sm font-semibold hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 transition-colors"
             >
               <Home size={18} />
-              <span className="hidden sm:inline">{t('Back to site')}</span>
+              <span className="hidden sm:inline">{t("Back to site")}</span>
             </Link>
             <ThemeToggle />
             <LanguageSwitcher />
@@ -129,7 +124,7 @@ export function AdminLayout() {
             end={item.end}
             className={({ isActive }) =>
               `flex flex-col items-center gap-1 px-2 text-[10px] font-semibold ${
-                isActive ? 'text-primary' : 'text-muted-foreground'
+                isActive ? "text-primary" : "text-muted-foreground"
               }`
             }
           >

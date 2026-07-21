@@ -164,17 +164,12 @@ export function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-color)]"
+            className="fixed inset-0 z-100 flex flex-col bg-[var(--bg-color)]"
           >
             <div className="flex items-center justify-between border-b neo-border p-6">
               <div className="flex items-center gap-2">
                 <div className="neo-border -rotate-6 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white">
-                  <img
-                    loading="lazy"
-                    src="/src/assets/images/student_union_logo_1783505615366.jpg"
-                    alt="Student Union Logo"
-                    className="h-full w-full object-cover"
-                  />
+                  <img loading="lazy" src="/logo.jpg" alt="Student Union Logo" className="h-full w-full object-cover" />
                 </div>
                 <span className="font-display text-xl font-bold">
                   STUDENT <span className="text-gradient">UNION</span>

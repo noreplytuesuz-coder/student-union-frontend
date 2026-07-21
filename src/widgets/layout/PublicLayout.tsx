@@ -1,8 +1,8 @@
-import { Instagram, MessageCircle, Twitter } from 'lucide-react';
-import { Link, Outlet } from 'react-router-dom';
-import { BackToTop } from '@/widgets/back-to-top';
-import { BottomNav } from '@/widgets/bottom-nav';
-import { Navbar } from '@/widgets/navbar';
+import { Instagram, MessageCircle, Twitter } from "lucide-react";
+import { Link, Outlet } from "react-router-dom";
+import { BackToTop } from "@/widgets/back-to-top";
+import { BottomNav } from "@/widgets/bottom-nav";
+import { Navbar } from "@/widgets/navbar";
 
 export function PublicLayout() {
   return (
@@ -11,7 +11,7 @@ export function PublicLayout() {
       <div className="fixed -left-[10%] -top-[20%] -z-10 h-[50%] w-[50%] animate-pulse rounded-full bg-primary/20 blur-[120px]" />
       <div
         className="fixed -right-[10%] -bottom-[20%] -z-10 h-[50%] w-[50%] animate-pulse rounded-full bg-secondary/20 blur-[120px]"
-        style={{ animationDelay: '2s' }}
+        style={{ animationDelay: "2s" }}
       />
 
       <Navbar />
@@ -27,20 +27,15 @@ export function PublicLayout() {
             <div className="col-span-1 md:col-span-2">
               <div className="mb-4 flex items-center gap-2">
                 <div className="neo-border -rotate-6 flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white">
-                  <img
-                    loading="lazy"
-                    src="/src/assets/images/student_union_logo_1783505615366.jpg"
-                    alt="Student Union Logo"
-                    className="h-full w-full object-cover"
-                  />
+                  <img loading="lazy" src="/logo.jpg" alt="Student Union Logo" className="h-full w-full object-cover" />
                 </div>
                 <h3 className="font-display text-4xl font-bold">
                   STUDENT <span className="text-secondary">UNION</span>
                 </h3>
               </div>
               <p className="max-w-md font-sans text-gray-400">
-                The most alive, energetic, and modern student union platform. Built for the next
-                generation of campus leaders.
+                The most alive, energetic, and modern student union platform. Built for the next generation of campus
+                leaders.
               </p>
             </div>
             <div>
@@ -75,9 +70,7 @@ export function PublicLayout() {
             </div>
           </div>
           <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 md:flex-row">
-            <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Student Union. All rights reserved.
-            </p>
+            <p className="text-sm text-gray-500">© {new Date().getFullYear()} Student Union. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <a
                 href="#"
