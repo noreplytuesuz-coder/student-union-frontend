@@ -99,14 +99,13 @@ export function AdminLayout() {
             <Link
               to="/"
               title="Back to site"
-              className="flex h-10 items-center gap-2 rounded-full bg-gray-100 px-4 font-heading text-sm font-semibold hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 transition-colors"
+              className="flex h-10 items-center rounded-full bg-gray-100 px-3 py-3 font-heading text-sm font-semibold hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 transition-colors"
             >
               <Home size={18} />
-              <span className="hidden sm:inline">{t("Back to site")}</span>
             </Link>
             <ThemeToggle />
             <LanguageSwitcher />
-            <LogoutButton size="sm" className="lg:hidden" redirectTo="/" />
+            <LogoutButton size="sm" redirectTo="/" />
           </div>
         </header>
 

@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { LogOut, Menu, Moon, Sun, Trophy, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { LogoutButton } from "@/features/auth";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -104,7 +105,7 @@ export function Navbar() {
 
               {isAuthenticated ? (
                 <div className="hidden items-center gap-2 sm:flex">
-                  {user?.isVerified && (
+                  {/* {user?.isVerified && (
                     <NavLink
                       to="/ranking"
                       className="neo-border flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-semibold hover:opacity-80"
@@ -113,7 +114,7 @@ export function Navbar() {
                       <Trophy size={14} className="text-amber-500" />
                       {user.points}
                     </NavLink>
-                  )}
+                  )} */}
                   <NavLink
                     to="/profile"
                     className="mr-2 flex items-center hover:opacity-80"
@@ -126,13 +127,7 @@ export function Navbar() {
                       fallbackClassName="text-xs"
                     />
                   </NavLink>
-                  <button
-                    onClick={handleLogout}
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 hover:bg-red-500 hover:text-white dark:bg-white/10"
-                    title="Sign Out"
-                  >
-                    <LogOut size={16} />
-                  </button>
+                  <LogoutButton />
                 </div>
               ) : (
                 <div className="hidden items-center gap-2 sm:flex">
