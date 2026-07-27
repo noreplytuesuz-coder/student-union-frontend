@@ -1,22 +1,25 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { ArrowRight, Calendar, Users, Zap, Star } from "lucide-react";
-import { Button, Card, Skeleton } from "@/shared/ui";
+import { Avatar, Button, Card, Skeleton } from "@/shared/ui";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/app/providers";
-import { cn } from "@/shared/lib/utils";
+import { cn, formatCompactNumber } from "@/shared/lib/utils";
 import { useEvents } from "@/entities/event";
-import { useRanking } from "@/entities/ranking";
+import { useStats } from "@/entities/stats";
 
 export function Home() {
   const { t, language } = useLanguage();
   const [featuredLimit] = useState(3);
 
   const { data: eventsData, isLoading: eventsLoading } = useEvents({ limit: featuredLimit });
-  const { data: rankingData, isLoading: rankingLoading } = useRanking();
+  const { data: statsData, isLoading: statsLoading } = useStats();
 
   const events = eventsData?.events ?? [];
-  const memberCount = rankingData?.count;
+  const eventsCount = statsData?.events;
+  const projectsCount = statsData?.projects;
+  const profilesImages = statsData?.profiles;
+  const memberCount = statsData?.students;
 
   const stats = [
     {
@@ -27,13 +30,13 @@ export function Home() {
     },
     {
       label: t("home.stats.eventsHosted"),
-      value: eventsData?.pagination?.total != null ? `${eventsData.pagination.total}` : "—",
+      value: eventsCount != null ? `${eventsCount}` : "—",
       icon: Calendar,
       color: "text-secondary",
     },
     {
       label: t("home.stats.projectsBuilt"),
-      value: `${rankingData?.ranking.length ?? 0}`,
+      value: `${projectsCount ?? 0}`,
       icon: Zap,
       color: "text-cyan-500",
     },
@@ -61,7 +64,7 @@ export function Home() {
           >
             <h1
               className={cn(
-                "font-display font-black leading-[1.1] tracking-tight break-words",
+                "font-display font-black leading-[1.1] tracking-tight wrap-break-word",
                 language === "ru" ? "text-4xl sm:text-5xl lg:text-6xl" : "text-5xl sm:text-6xl lg:text-7xl xl:text-8xl",
               )}
             >
@@ -85,9 +88,9 @@ export function Home() {
             </div>
           </motion.div>
 
-          <motion.div style={{ y, opacity }} className="relative hidden lg:block h-[600px] w-full z-0 overflow-hidden">
+          <motion.div style={{ y, opacity }} className="relative hidden lg:block h-150 w-full z-0 overflow-hidden">
             {/* Vertical Bent 3D Image Marquee */}
-            <div className="absolute inset-0 flex items-center justify-center [perspective:1200px] rounded-3xl">
+            <div className="absolute inset-0 flex items-center justify-center perspective-distant rounded-3xl">
               <div
                 className="relative flex gap-6 h-[200%] w-[120%] scale-[1.15] translate-y-20 translate-x-10"
                 style={{ transformStyle: "preserve-3d", transform: "rotateX(20deg) rotateY(-20deg) rotateZ(10deg)" }}
@@ -99,36 +102,30 @@ export function Home() {
                   className="flex flex-col gap-6 h-max"
                 >
                   {[
-                    "1540575467063-178a50c2df87",
-                    "1491438590914-bc09fcaaf77a",
-                    "1541339907198-e08756dedf3f",
-                    "1517245386807-bb43f82c33c4",
-                    "1511629091441-ee46146481b6",
+                    "/carousel/awardkinda.jpg",
+                    "/carousel/contractkinda.jpg",
+                    "/carousel/discussion.jpg",
+                    "/carousel/explaining_teacher.jpg",
+                    "/carousel/flag.jpg",
+                    "/carousel/flowers.jpg",
+                    "/carousel/gallery.jpg",
                   ].map((id, i) => (
                     <div key={`c1-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                   {/* Duplicates for seamless loop */}
                   {[
-                    "1540575467063-178a50c2df87",
-                    "1491438590914-bc09fcaaf77a",
-                    "1541339907198-e08756dedf3f",
-                    "1517245386807-bb43f82c33c4",
-                    "1511629091441-ee46146481b6",
+                    "/carousel/awardkinda.jpg",
+                    "/carousel/contractkinda.jpg",
+                    "/carousel/discussion.jpg",
+                    "/carousel/explaining_teacher.jpg",
+                    "/carousel/flag.jpg",
+                    "/carousel/flowers.jpg",
+                    "/carousel/gallery.jpg",
                   ].map((id, i) => (
                     <div key={`c1-dup-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </motion.div>
@@ -140,36 +137,30 @@ export function Home() {
                   className="flex flex-col gap-6 h-max"
                 >
                   {[
-                    "1522202176988-66273c2fd55f",
-                    "1498243691581-b145c3f54a5a",
-                    "1504384764586-bb4cdc1707b0",
-                    "1503676260728-1c00da094a0b",
-                    "1543269865-cbf427effbad",
+                    "/carousel/goal.jpg",
+                    "/carousel/lessom.jpg",
+                    "/carousel/redguys.jpg",
+                    "/carousel/studentsview1.jpg",
+                    "/carousel/studentsview2.jpg",
+                    "/carousel/teacher_lesson.jpg",
+                    "/carousel/teacher.jpg",
                   ].map((id, i) => (
                     <div key={`c2-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                   {/* Duplicates for seamless loop */}
                   {[
-                    "1522202176988-66273c2fd55f",
-                    "1498243691581-b145c3f54a5a",
-                    "1504384764586-bb4cdc1707b0",
-                    "1503676260728-1c00da094a0b",
-                    "1543269865-cbf427effbad",
+                    "/carousel/goal.jpg",
+                    "/carousel/lessom.jpg",
+                    "/carousel/redguys.jpg",
+                    "/carousel/studentsview1.jpg",
+                    "/carousel/studentsview2.jpg",
+                    "/carousel/teacher_lesson.jpg",
+                    "/carousel/teacher.jpg",
                   ].map((id, i) => (
                     <div key={`c2-dup-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </motion.div>
@@ -181,36 +172,30 @@ export function Home() {
                   className="flex flex-col gap-6 h-max"
                 >
                   {[
-                    "1540575467063-178a50c2df87",
-                    "1498243691581-b145c3f54a5a",
-                    "1491438590914-bc09fcaaf77a",
-                    "1517245386807-bb43f82c33c4",
-                    "1503676260728-1c00da094a0b",
+                    "/carousel/awardkinda.jpg",
+                    "/carousel/contractkinda.jpg",
+                    "/carousel/discussion.jpg",
+                    "/carousel/explaining_teacher.jpg",
+                    "/carousel/flag.jpg",
+                    "/carousel/flowers.jpg",
+                    "/carousel/gallery.jpg",
                   ].map((id, i) => (
                     <div key={`c3-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                   {/* Duplicates for seamless loop */}
                   {[
-                    "1540575467063-178a50c2df87",
-                    "1498243691581-b145c3f54a5a",
-                    "1491438590914-bc09fcaaf77a",
-                    "1517245386807-bb43f82c33c4",
-                    "1503676260728-1c00da094a0b",
+                    "/carousel/awardkinda.jpg",
+                    "/carousel/contractkinda.jpg",
+                    "/carousel/discussion.jpg",
+                    "/carousel/explaining_teacher.jpg",
+                    "/carousel/flag.jpg",
+                    "/carousel/flowers.jpg",
+                    "/carousel/gallery.jpg",
                   ].map((id, i) => (
                     <div key={`c3-dup-${i}`} className="w-64 h-44 rounded-2xl overflow-hidden shrink-0">
-                      <img
-                        loading="lazy"
-                        src={`https://images.unsplash.com/photo-${id}?q=80&w=600&auto=format&fit=crop`}
-                        alt="Campus"
-                        className="w-full h-full object-cover"
-                      />
+                      <img loading="lazy" src={id} alt="Campus" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </motion.div>
@@ -242,7 +227,7 @@ export function Home() {
                   <stat.icon size={32} />
                 </div>
                 <div>
-                  {eventsLoading || rankingLoading ? (
+                  {eventsLoading || statsLoading ? (
                     <Skeleton className="h-10 w-24 mb-1" />
                   ) : (
                     <h3 className="font-display text-4xl font-bold">{stat.value}</h3>
@@ -306,14 +291,14 @@ export function Home() {
                         alt={event.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
                       <div className="absolute bottom-3 left-3">
                         <span className="px-3 py-1 bg-white/20 backdrop-blur-md border border-white/40 text-white text-xs font-bold font-mono rounded-full">
                           {event.type}
                         </span>
                       </div>
                     </div>
-                    <div className="p-6 flex flex-col gap-3 bg-[var(--bg-color)]">
+                    <div className="p-6 flex flex-col gap-3 bg-(--bg-color)">
                       <h3 className="font-display text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
                         {event.title}
                       </h3>
@@ -352,20 +337,20 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-[800px] md:h-[600px]">
+          <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-200 md:h-150">
             {/* Bento 1 */}
             <motion.div
               whileHover={{ scale: 0.98 }}
               className="md:col-span-8 md:row-span-1 rounded-3xl neo-border neo-shadow overflow-hidden relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 z-0" />
+              <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-secondary/20 z-0" />
               <img
                 loading="lazy"
-                src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop"
+                src="/carousel/eventss.jpg"
                 alt="Events"
                 className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60 group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-8 z-10 text-white">
                 <span className="inline-block px-3 py-1 bg-primary text-xs font-bold font-mono rounded-full mb-3 uppercase tracking-wider">
                   {t("Epic Events")}
@@ -391,18 +376,18 @@ export function Home() {
                   <h3 className="font-display text-3xl font-bold mb-2">{t("Find Your Tribe")}</h3>
                 </div>
                 <div className="flex -space-x-4 mb-4">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className="w-12 h-12 rounded-full border-2 border-white bg-gray-300"
-                      style={{
-                        backgroundImage: `url(https://i.pravatar.cc/100?img=${i + 10})`,
-                        backgroundSize: "cover",
-                      }}
-                    />
+                  {profilesImages?.images?.map((profile, i) => (
+                    <div key={i} className="w-12 h-12 rounded-full border-2 border-white bg-gray-300">
+                      <Avatar
+                        name={profile.name}
+                        image={profile.image}
+                        className="h-full w-full"
+                        fallbackClassName="text-3xl"
+                      />
+                    </div>
                   ))}
                   <div className="w-12 h-12 rounded-full border-2 border-white bg-white/30 backdrop-blur-md flex items-center justify-center font-bold text-sm z-0">
-                    +2k
+                    +{formatCompactNumber(profilesImages?.count || 0)}
                   </div>
                 </div>
                 <p className="font-sans text-white/90 font-medium">
