@@ -1,94 +1,20 @@
 import { useLanguage } from "@/app/providers/LanguageContext";
-import { sessionApi } from "@/entities/session";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useGoogleAuth } from "@/features/auth/hooks/useGoogleAuth";
 import { Loader2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID ?? "";
-const SCRIPT_URL = "https://accounts.google.com/gsi/client";
-
-function loadGsiScript(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (document.getElementById("google-gsi")) return resolve();
-    const s = document.createElement("script");
-    s.id = "google-gsi";
-    s.src = SCRIPT_URL;
-    s.async = true;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("Failed to load Google script"));
-    document.head.appendChild(s);
-  });
-}
 
 export function GoogleButton({ mode }: { mode: "signin" | "signup" }) {
   const { t } = useLanguage();
-  const navigate = useNavigate();
+  const { isLoading, triggerAuth } = useGoogleAuth();
 
-  // Local loading state – covers script loading + Google prompt + mutation
-  const [isLoading, setIsLoading] = useState(false);
-  const callbackRef = useRef<((resp: { credential?: string }) => void) | null>(null);
-  const timeoutRef = useRef<number | null>(null);
-
-  const googleMutation = useMutation({
-    mutationFn: (idToken: string) => sessionApi.googleSignIn({ idToken }),
-    onSuccess: (user) => {
-      setIsLoading(false);
-      navigate(user.role === "user" ? "/admin" : "/");
-    },
-    onError: () => {
-      setIsLoading(false);
-    },
-  });
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
-
-  const handleClick = async () => {
-    if (isLoading || !GOOGLE_CLIENT_ID) return;
-    setIsLoading(true);
-
-    // Reset loading if Google callback doesn't fire within 10s (e.g., user closes prompt)
-    timeoutRef.current = window.setTimeout(() => {
-      setIsLoading(false);
-    }, 10000);
-
-    try {
-      await loadGsiScript();
-      const accounts = (window as any).google?.accounts?.id;
-      if (!accounts) throw new Error("Google Identity Services unavailable");
-
-      // Store callback reference so we can clear the timeout when it fires
-      const callback = (resp: { credential?: string }) => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        if (resp.credential) {
-          googleMutation.mutate(resp.credential);
-        } else {
-          setIsLoading(false);
-        }
-      };
-      callbackRef.current = callback;
-
-      accounts.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback,
-      });
-      accounts.prompt();
-    } catch (err) {
-      console.error("Google sign-in failed:", err);
-      setIsLoading(false);
-    }
+  const handleClick = () => {
+    triggerAuth();
   };
 
   return (
     <button
       type="button"
       onClick={handleClick}
-      disabled={isLoading || googleMutation.isPending}
+      disabled={isLoading}
       className={`
         relative flex w-full items-center justify-center gap-3 rounded-full
         neo-border bg-[var(--bg-color)] px-4 py-3 font-heading text-sm font-bold
@@ -99,7 +25,6 @@ export function GoogleButton({ mode }: { mode: "signin" | "signup" }) {
     >
       {isLoading ? (
         <>
-          {/* Spinner + circular progress ring */}
           <div className="relative h-5 w-5">
             <Loader2 size={18} className="absolute inset-0 animate-spin text-blue-500" />
             <svg className="absolute inset-0 h-5 w-5 -rotate-90 transform" viewBox="0 0 24 24">

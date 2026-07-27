@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { ApiError } from '@/shared/api';
-import { useSessionStore } from './model/authStore';
-import type { SessionUser, SignInDto, SignUpDto } from './model/types';
-import { sessionApi } from './api/auth';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { ApiError } from "@/shared/api";
+import { useSessionStore } from "./model/authStore";
+import type { SessionUser, SignInDto, SignUpDto } from "./model/types";
+import { sessionApi } from "./api/auth";
 
 export const sessionKeys = {
-  me: ['session', 'me'] as const,
+  me: ["session", "me"] as const,
 };
 
 /**
@@ -80,6 +80,21 @@ export function useSignOut() {
       // Even if the server call fails, clear local session.
       logout();
       queryClient.clear();
+    },
+  });
+}
+
+export function useGoogleSignIn() {
+  const queryClient = useQueryClient();
+  const setUser = useSessionStore((s) => s.setUser);
+
+  return useMutation({
+    mutationFn: (data: { idToken: string; name?: string; image?: string }) => sessionApi.googleSignIn(data),
+    onSuccess: (user: SessionUser) => {
+      // 1. Instantly update Zustand store
+      setUser(user);
+      // 2. Hydrate React Query cache for the ['session', 'me'] key
+      queryClient.setQueryData(sessionKeys.me, user);
     },
   });
 }
